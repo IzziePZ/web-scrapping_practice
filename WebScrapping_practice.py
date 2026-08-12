@@ -3,6 +3,7 @@
 
 import requests
 from bs4 import BeautifulSoup
+import csv
 
 url = 'https://www.scrapethissite.com/pages/forms/'
 response = requests.get(url)
@@ -50,6 +51,9 @@ for page_num in range(1, last_page + 1):
         wins = team.find('td', class_='wins').text.strip()
         losses = team.find('td', class_='losses').text.strip()
         win_pct = team.find('td', class_='pct').text.strip()
+        goals_favor = team.find('td', class_='gf').text.strip()
+        goals_against = team.find('td', class_='ga').text.strip()
+        goal_diff = team.find('td', class_='diff').text.strip()
 
         all_teams.append({
             'season': int(season) if season else None,
@@ -57,6 +61,16 @@ for page_num in range(1, last_page + 1):
             'wins': int(wins) if wins else None,
             'losses': int(losses) if losses else None,
             'win_pct': float(win_pct) if win_pct else None,
+            'goals_favor': int(goals_favor) if goals_favor else None,
+            'goals_against': int(goals_against) if goals_against else None,
+            'goal_diff': int(goal_diff) if goal_diff else None,
         })
 
+# Extract all data into a csv file
+with open('nhl_teams_data.csv', 'w', newline='', encoding='utf-8') as csvfile:
+    fieldnames = ['season', 'team', 'wins', 'losses', 'win_pct', 'goals_favor', 'goals_against', 'goal_diff']
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
+    writer.writeheader()
+    for team in all_teams:
+        writer.writerow(team)
