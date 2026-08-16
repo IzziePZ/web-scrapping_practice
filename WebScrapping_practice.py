@@ -1,4 +1,4 @@
-# Web scrapping practice from https://www.scrapethissite.com/pages/forms/
+# Web scraping practice from https://www.scrapethissite.com/pages/forms/
 # NHL Teams Stats since 1990 to 2011
 
 import requests
