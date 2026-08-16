@@ -33,3 +33,4 @@ df = pd.read_csv('nhl_teams_data.csv')
 df = clean_data(df)
 
 print(df.head())
+
